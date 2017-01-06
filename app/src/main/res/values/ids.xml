@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="list_view" type="id"/>
+    <item name="toolbar" type="id"/>
+    <item name="view_pager" type="id"/>
+    <item name="tab_layout" type="id"/>
+    <item name="view_header" type="id"/>
+    <item name="scroll_layout" type="id"/>
+    <item name="header_view" type="id"/>
+    <item name="target_view" type="id"/>
+    <item name="view_target" type="id"/>
+</resources>

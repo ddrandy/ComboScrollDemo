@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:titleTextColor="@color/colorWhite"/>
+
+    <com.newpostech.randy.comboscrolldemo.widget.EventDispatchPlanLayout
+        android:id="@id/scroll_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        app:header_init_offset="@dimen/header_init_offset"
+        app:header_view="@id/view_header"
+        app:target_init_offset="@dimen/target_init_offset"
+        app:target_view="@id/view_target">
+
+        <View
+            android:id="@id/view_header"
+            android:layout_width="@dimen/header_width"
+            android:layout_height="@dimen/header_height"
+            android:background="@color/colorGray"/>
+
+        <com.newpostech.randy.comboscrolldemo.widget.EventDispatchTargetLayout
+            android:id="@id/view_target"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            android:orientation="vertical">
+
+
+            <android.support.design.widget.TabLayout
+                android:id="@id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tab_layout_height"
+                android:background="@drawable/list_item_bg_with_border_top_bottom"
+                android:fillViewport="true"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </com.newpostech.randy.comboscrolldemo.widget.EventDispatchTargetLayout>
+    </com.newpostech.randy.comboscrolldemo.widget.EventDispatchPlanLayout>
+</FrameLayout>
