@@ -43,12 +43,12 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         intent = new Intent(MainActivity.this, EventDispatchActivity.class);
-//                        intent=new Intent(MainActivity.this,)
-//                        intent=new Intent(MainActivity.this,)
                         break;
                     case 1:
+                        intent = new Intent(MainActivity.this, NestingScrollActivity.class);
                         break;
                     case 2:
+//                        intent=new Intent(MainActivity.this,)
                         break;
                 }
                 if (intent != null) {

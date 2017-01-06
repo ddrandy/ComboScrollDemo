@@ -112,19 +112,6 @@ public class EventDispatchPlanLayout extends ViewGroup {
         }
     }
 
-    private void ensureHeaderViewAndScrollView() {
-        if (mHeaderView != null && mTargetView != null) {
-            return;
-        }
-        if (mHeaderView == null && mTargetView == null && getChildCount() >= 2) {
-            mHeaderView = getChildAt(0);
-            mTargetView = getChildAt(1);
-            ensureTarget();
-            return;
-        }
-        throw new RuntimeException("ensure you add headerView and scrollView");
-    }
-
     @Override
     protected int getChildDrawingOrder(int childCount, int i) {
         ensureHeaderViewAndScrollView();
@@ -157,6 +144,19 @@ public class EventDispatchPlanLayout extends ViewGroup {
                 makeMeasureSpec(getMeasuredHeight() - getPaddingTop() - getPaddingBottom(), MeasureSpec.EXACTLY);
         mTargetView.measure(scrollMeasureWidthSpec, scrollMeasureHeightSpec);
         measureChild(mHeaderView, widthMeasureSpec, heightMeasureSpec);
+    }
+
+    private void ensureHeaderViewAndScrollView() {
+        if (mHeaderView != null && mTargetView != null) {
+            return;
+        }
+        if (mHeaderView == null && mTargetView == null && getChildCount() >= 2) {
+            mHeaderView = getChildAt(0);
+            mTargetView = getChildAt(1);
+            ensureTarget();
+            return;
+        }
+        throw new RuntimeException("ensure you add headerView and scrollView");
     }
 
     @Override
