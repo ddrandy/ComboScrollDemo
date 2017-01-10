@@ -27,7 +27,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder> {
         int paddingHor = Util.dp2px(parent.getContext(), 16);
         textView.setPadding(paddingHor, 0, paddingHor, 0);
         textView.setGravity(Gravity.CENTER_VERTICAL);
-        textView.setTextSize(16);
+        textView.setTextSize(26);
         return new ViewHolder(textView);
     }
 

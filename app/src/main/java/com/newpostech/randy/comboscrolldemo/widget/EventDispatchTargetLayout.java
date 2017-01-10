@@ -5,6 +5,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.newpostech.randy.comboscrolldemo.R;
+import com.newpostech.randy.comboscrolldemo.adapter.MyRecyclerViewAdapter;
 
 import java.util.ArrayList;
 
@@ -24,13 +27,15 @@ import java.util.ArrayList;
  * Description: TODO
  */
 
-public class EventDispatchTargetLayout extends LinearLayout implements EventDispatchPlanLayout.ITargetView {
+public class EventDispatchTargetLayout extends LinearLayout implements IPageList, EventDispatchPlanLayout.ITargetView {
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private ArrayList<String> mData = new ArrayList<>();
-    private SparseArray<ListView> mPageMap = new SparseArray<>();
-    private PagerAdapter mPagerAdapter = new PagerAdapter() {
+    protected PagerAdapter mPagerAdapter;
+    private SparseArray<RecyclerView> mPageMap = new SparseArray<>();
+
+    /*private PagerAdapter mPagerAdapter = new PagerAdapter() {
         @Override
         public int getCount() {
             return 3;
@@ -59,9 +64,9 @@ public class EventDispatchTargetLayout extends LinearLayout implements EventDisp
         public CharSequence getPageTitle(int position) {
             return mData.get(position);
         }
-    };
+    };*/
 
-    private View getPageView(int position) {
+    /*private View getPageView(int position) {
         ListView view = mPageMap.get(position);
         if (view == null) {
             view = new ListView(getContext());
@@ -70,7 +75,7 @@ public class EventDispatchTargetLayout extends LinearLayout implements EventDisp
         }
         return view;
     }
-
+*/
     public EventDispatchTargetLayout(Context context) {
         this(context, null);
     }
@@ -87,6 +92,8 @@ public class EventDispatchTargetLayout extends LinearLayout implements EventDisp
         for (int i = 0; i < 60; i++) {
             mData.add("item " + i);
         }
+
+        setPagerAdapter();
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
     }
@@ -97,16 +104,17 @@ public class EventDispatchTargetLayout extends LinearLayout implements EventDisp
             return false;
         }
         int currentItem = mViewPager.getCurrentItem();
-        ListView listView = mPageMap.get(currentItem);
-        if (listView == null) {
+        RecyclerView recyclerView = mPageMap.get(currentItem);
+        if (recyclerView == null) {
             return false;
         }
         if (android.os.Build.VERSION.SDK_INT < 14) {
-            return listView.getChildCount() > 0
-                    && (listView.getFirstVisiblePosition() > 0
-                    || listView.getChildAt(0).getTop() < listView.getPaddingTop());
+            return recyclerView.getChildCount() > 0
+//                    && (recyclerView.getFirstVisiblePosition() > 0
+//                    || recyclerView.getChildAt(0).getTop() < recyclerView.getPaddingTop());
+                    && recyclerView.getChildAt(0).getTop() < recyclerView.getPaddingTop();
         } else {
-            return ViewCompat.canScrollVertically(listView, -1);
+            return ViewCompat.canScrollVertically(recyclerView, -1);
         }
     }
 
@@ -116,14 +124,58 @@ public class EventDispatchTargetLayout extends LinearLayout implements EventDisp
             return;
         }
         int currentItem = mViewPager.getCurrentItem();
-        ListView listView = mPageMap.get(currentItem);
-        if (listView == null) {
+        RecyclerView recyclerView = mPageMap.get(currentItem);
+        if (recyclerView == null) {
             return;
         }
         if (android.os.Build.VERSION.SDK_INT >= 21) {
-            listView.fling((int) -vy);
+            recyclerView.fling(0, (int) -vy);
         } else {
             // 可调用第三方实现
         }
+    }
+
+    @Override
+    public final View getPageView(int position) {
+        RecyclerView recyclerView = mPageMap.get(position);
+        if (recyclerView == null) {
+            recyclerView = new RecyclerView(getContext());
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.setAdapter(new MyRecyclerViewAdapter());
+            mPageMap.put(position, recyclerView);
+        }
+        return recyclerView;
+    }
+
+    @Override
+    public final void setPagerAdapter() {
+        mPagerAdapter = new PagerAdapter() {
+            @Override
+            public int getCount() {
+                return 3;
+            }
+
+            @Override
+            public boolean isViewFromObject(View view, Object object) {
+                return view == object;
+            }
+
+            @Override
+            public Object instantiateItem(ViewGroup container, int position) {
+                View view = getPageView(position);
+                container.addView(view);
+                return view;
+            }
+
+            @Override
+            public void destroyItem(ViewGroup container, int position, Object object) {
+                container.removeView((View) object);
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return "Item " + position;
+            }
+        };
     }
 }

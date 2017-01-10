@@ -1,6 +1,5 @@
 package com.newpostech.randy.comboscrolldemo.ui;
 
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.newpostech.randy.comboscrolldemo.R;

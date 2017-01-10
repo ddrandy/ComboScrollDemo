@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                         intent = new Intent(MainActivity.this, NestingScrollActivity.class);
                         break;
                     case 2:
-//                        intent=new Intent(MainActivity.this,)
+                        intent = new Intent(MainActivity.this, CoordinatorLayoutActivity.class);
                         break;
                 }
                 if (intent != null) {
